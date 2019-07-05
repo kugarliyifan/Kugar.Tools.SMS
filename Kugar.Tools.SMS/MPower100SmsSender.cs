@@ -39,7 +39,7 @@ namespace Kugar.Tools.SMS
             get { return "企信通"; }
         }
 
-        public async Task<(bool isSuccess,int statusCode)> Send(string[] mobiles, string message)
+        public async Task<(bool isSuccess,int statusCode)> SendAsync(string[] mobiles, string message)
         {
             var result = string.Empty;
 

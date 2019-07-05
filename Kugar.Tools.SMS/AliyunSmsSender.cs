@@ -30,6 +30,11 @@ namespace Kugar.Tools.SMS
         private string AccessKeyId;
         private string AccessKeySecret;
 
+        /// <summary>
+        /// 创建一个发送的实例类
+        /// </summary>
+        /// <param name="accessKeyId">阿里云后台创建的SMS的信息</param>
+        /// <param name="accessKeySecret"></param>
         public AliyunSmsSender(string accessKeyId, string accessKeySecret)
         {
             this.AccessKeyId = accessKeyId;
@@ -39,15 +44,21 @@ namespace Kugar.Tools.SMS
         /// <summary>
         /// 发送短信
         /// </summary>
-        public async Task<(bool success, string msg)> Send(string mobile,string signature,string templetKey, IDictionary<string, string> data,string outID)
+        /// <param name="mobile">接受人手机号码</param>
+        /// <param name="signature">商户的签名</param>
+        /// <param name="templetCode">短信模板编号</param>
+        /// <param name="data">对应模板中的内容</param>
+        /// <param name="outID"></param>
+        /// <returns></returns>
+        public async Task<(bool success, string msg)> SendAsync(string mobile,string signature,string templetCode, IDictionary<string, string> data/*,string outID=""*/)
         {
             var paramers = new Dictionary<string, string>
             {
                 { "PhoneNumbers",mobile },
                 { "SignName", signature },
-                { "TemplateCode", templetKey },
+                { "TemplateCode", templetCode },
                 { "TemplateParam", JsonConvert.SerializeObject(data) },
-                { "OutId", outID },
+                //{ "OutId", outID },
                 { "AccessKeyId", AccessKeyId }
             };
 
@@ -80,6 +91,8 @@ namespace Kugar.Tools.SMS
                 return (false, msg: ex.Message);
             }
         }
+
+
 
         private string GetSignUrl(Dictionary<string, string> parameters, string accessSecret)
         {
